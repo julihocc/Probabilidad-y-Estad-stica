@@ -1,0 +1,39 @@
+---
+title: "Tarea 1"
+output:
+  pdf_document: default
+---
+
+1.   Descarga el conjunto de datos "Wolrd and Population Update 2022" desde el sitio https://www.kaggle.com/datasets/julihocc/world-population-update-2022
+
+2.   Los datos están en formato `.csv`. Impórtalos como un marco de datos usando la función correspondiente.
+```{r}
+library(readr)
+pop <- read.csv("population-and-demography.csv")
+head(pop)
+```
+3.   Selecciona un marco de datos solo con la información de México e imprime los primeros renglones.
+```{r}
+isMexico <- pop$Country.name=="Mexico"
+mexico = pop[isMexico,]
+print(head(mexico))
+```
+
+4.   Determina cuantos datos del conjunto original corresponden a México.
+```{r}
+print(sum(isMexico))
+```
+
+5.   Determina cuál es la tasa de crecimiento poblacional promedio para México.
+```{r}
+print(mean(mexico$Population.growth.rate))
+```
+
+6.   Calcula la tasa de crecimiento poblacional acumulada para México.
+```{r}
+cumprodMexico <- cumprod(mexico$Population.growth.rate/100+1)-1
+print(cumprodMexico[length(cumprodMexico)])
+```
+
+
+

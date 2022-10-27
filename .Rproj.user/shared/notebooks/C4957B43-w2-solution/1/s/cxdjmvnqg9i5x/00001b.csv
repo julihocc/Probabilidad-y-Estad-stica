@@ -1,0 +1,4 @@
+"0","data <- read_csv(""median-age.csv"", "
+"0","                       col_types = cols(Year = col_integer()))"
+"0",""
+"0","head(data)"

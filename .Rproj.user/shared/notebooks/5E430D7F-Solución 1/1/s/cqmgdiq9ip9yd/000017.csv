@@ -1,0 +1,3 @@
+"0","isMexico <- pop$Country.name==""Mexico"""
+"0","mexico = pop[isMexico,]"
+"0","print(head(mexico))"

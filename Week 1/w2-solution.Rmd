@@ -1,0 +1,16 @@
+---
+title: "Semana 2: Soluciones"
+output: html_notebook
+---
+##  Actividades
+
+1.   Descarga el conjunto de datos *Age Structure by Hannah Ritchie and Max Roser* desde el sitio https://www.kaggle.com/datasets/julihocc/age-structure-by-hannah-ritchie-and-max-roser. Los datos están en formato `.csv`. Impórtalos como un marco de datos usando la función correspondiente e imprime los primeros renglones.
+
+
+
+2.   Selecciona solo los datos correspondientes al año 2015 e imprime los primeros renglones.
+3.   Omite todos los renglones que tengan algún valor nulo
+4.   Omite todos los renglones cuyo código comience con "OWID_"
+5.   Divide el rango de la edad medio en 10 subintervalos
+6.   Crea un histograma que indique la frecuencia en cada uno de estos subintervalos
+

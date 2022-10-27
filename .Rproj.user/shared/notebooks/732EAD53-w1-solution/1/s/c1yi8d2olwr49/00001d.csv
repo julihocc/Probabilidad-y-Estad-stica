@@ -1,0 +1,3 @@
+"0","library(readr)"
+"0","pop <- read.csv(""population-and-demography.csv"")"
+"0","head(pop)"

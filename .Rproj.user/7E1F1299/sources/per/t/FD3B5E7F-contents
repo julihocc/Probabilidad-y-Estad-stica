@@ -1,0 +1,82 @@
+---
+title: "Tarea 3"
+output: html_notebook
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(readr)
+library(tidyverse)
+library(hrbrthemes)
+library(viridis)
+```
+
+1. Descarga el conjunto de datos *International arrivals by country* desde el sitio https://www.kaggle.com/datasets/julihocc/tourism-by-max-roser e impórtalos como un marco de datos.
+
+```{r}
+arrivals <- read_csv("international-tourism-number-of-arrivals.csv") %>%
+  rename(Arrivals = `International tourism, number of arrivals`)
+
+head(arrivals)
+```
+
+2. Crea un vector con los códigos únicos correspondientes solo a entidades con código ISO-3. 
+
+```{r}
+countries <- arrivals %>% 
+  filter(!is.na(Code)) %>%
+  distinct(Code) %>%
+  mutate(CodeLen = apply(., 2, nchar)) %>%
+  filter(CodeLen == 3) %>%
+  select(Code)
+  
+head(countries)
+```
+
+3. Utilizando el vector anterior, filtra los datos cuyo código sea ISO-3 y convierte los códigos de cadenas de caracteres a factores. 
+
+```{r}
+arrivals <- arrivals %>%
+  filter(Code %in% countries$Code) %>%
+  mutate(Code = factor(Code))
+```
+
+4. Selecciona solo los datos a partir del año 2000.
+
+```{r}
+arrivals <-arrivals %>%
+  filter(Year >= 2000)
+```
+
+5. Crea un marco de datos con las diez entidades con mayor media de arribos. 
+
+```{r}
+top_arrivals <- arrivals %>%
+  group_by(Code) %>%
+  summarise(mean.arrivals = mean(Arrivals)) %>%
+  arrange(desc(mean.arrivals)) %>%
+  head(n = 10)
+```
+
+6. Selecciona solo las entidades que se encuentran en el marco de datos anterior. 
+
+```{r}
+arrivals <- arrivals %>%
+  filter(Code %in% top_arrivals$Code) 
+```
+
+7. Crea un reporte con los estadísticos más importantes del número de arribos (en millones) por entidad con base en el marco de datos anterior. 
+
+```{r}
+by(arrivals$Arrivals/1000000, arrivals$Entity, summary) 
+```
+
+8. Crea un diagrama de caja con la información anterior, ordenando las entidades por número mediano de arribos, de mayor a menor. 
+```{r}
+arrivals %>%
+  ggplot( aes(x=reorder(Entity, -Arrivals), y=Arrivals, fill=Entity)) +
+  geom_boxplot() +
+  geom_jitter(width=0.15, alpha=0.1)+
+  theme(axis.text.x = element_text(angle = 90))
+```
+

@@ -1,0 +1,73 @@
+---
+title: 'Semana 2: Soluciones'
+output:
+  html_document:
+    df_print: paged
+---
+##  Actividades
+
+```{r}
+library(readr)
+library(dplyr)
+library(ggplot2)
+```
+
+
+
+1. Descarga el conjunto de datos *Age Structure by Hannah Ritchie and Max Roser* desde el sitio https://www.kaggle.com/datasets/julihocc/age-structure-by-hannah-ritchie-and-max-roser. Los datos están en formato `.csv`. 
+
+2. Impórtalos como un marco de datos usando la función correspondiente e imprime los primeros renglones.
+
+```{r}
+data <- read_csv("median-age.csv", 
+                       col_types = cols(Year = col_integer()))
+
+head(data)
+```
+
+3.   Selecciona solo los datos correspondientes al año 2015 e imprime los primeros renglones.
+
+```{r}
+data <- data %>%
+  filter(Year==2015)
+
+head(data)
+```
+
+4. Omite todos los renglones que tengan algún valor nulo
+
+```{r}
+data <- na.omit(data)
+```
+
+5.   Omite todos los renglones cuyo código comience con "OWID_"
+
+```{r}
+unique(data$Code)
+```
+
+
+```{r}
+owid_list <- c("OWID_CIS", "OWID_MNS", "OWID_PYA", "OWID_WRL") 
+data <- data[! data$Code %in% owid_list,]
+unique(data$Code)
+```
+
+6.   Divide el rango de la edad medio en 10 subintervalos
+
+```{r}
+data <- cut(data$`UN Population Division (Median Age) (2017)`, 10)
+
+head(data)
+```
+
+
+7.   Crea un histograma que indique la frecuencia de las edades en cada uno de estos subintervalos
+
+```{r}
+table(data) %>%
+  as.data.frame() %>%
+  ggplot(aes(x=data, y=Freq)) + 
+  geom_col()
+```
+

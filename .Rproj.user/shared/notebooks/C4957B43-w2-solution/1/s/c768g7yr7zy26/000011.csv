@@ -1,0 +1,4 @@
+"0","table(data) %>%"
+"0","  as.data.frame() %>%"
+"0","  ggplot(aes(x=data, y=Freq)) + "
+"0","  geom_col()"
